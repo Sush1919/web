@@ -1,0 +1,72 @@
+<style type="text/css">
+    *{
+        margin: 0px;
+        padding: 2px;
+        font-family: "times new roman";
+        box-sizing: border-box;
+        background-color:beige;
+    }
+    body
+    {
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 500px;
+    }
+    #nav
+    {
+        display: inline-flex;
+        flex-direction: row;
+        width: 100%;
+        height: 30px;
+        background-color:black;
+    
+    }
+    a{
+        background-color:rgb(255, 72, 0);
+        color:thistle;
+    }
+    #information{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 200px;
+    }
+    #image{
+        display: flex;
+        flex-direction: row;
+        flex-basis: 25%;
+        border: double;
+        border-color:darkorange;
+        
+
+    }
+    #about,#education,#experience,#projects{
+        
+        margin-block: 10px;
+        
+    }
+    #education2,#experience2,#projects2,#blogs{
+        border-color:antiquewhite;
+        margin-block: 10px;
+        
+    }
+    #blogs{
+        display: flex;
+        flex-direction: row;
+        
+       
+    }
+    #b1,#b2,#b3,#b4{
+        border: double;
+        flex-basis: 200px;
+        height: 200px;
+        align-items: center;
+        margin: 75px;
+        border-color:cadetblue;
+        
+    }
+    #i1{
+        align-self: center;
+    }
+
+</style>
