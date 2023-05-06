@@ -86,6 +86,7 @@ const server = http.createServer((req, res) => {
             //console.log(results);
             const data = (JSON.stringify(results));
             console.log(data);
+            JSON.parse(data);
             res.end(JSON.stringify(data));
             res.writeHead(200, {
 
