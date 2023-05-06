@@ -50,7 +50,7 @@ const server = http.createServer((req, res) => {
         //https://www.mongodb.com/blog/post/quick-start-nodejs-mongodb-how-to-get-connected-to-your-database
         const { MongoClient } = require('mongodb');
 
-
+main(processData);
         async function main() {
             /**
              * Connection URI. Update sushmanth, Sush%401919, and <your-cluster-url> to reflect your cluster.
@@ -76,6 +76,12 @@ const server = http.createServer((req, res) => {
                 await client.close();
             }
         }
+        function processData(data) {
+
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.writeHead(200, { 'Content-type': 'application/json' })
+            res.end(JSON.stringify(data));
+        }
 
         main().catch(console.error);
 
@@ -88,10 +94,7 @@ const server = http.createServer((req, res) => {
             console.log(data);
             JSON.parse(data);
             res.end(JSON.stringify(data));
-            res.writeHead(200, {
-
-                'Content-Type': 'application/json'
-              });
+            
 
         };
         //run().catch(console.dir);
@@ -100,6 +103,7 @@ const server = http.createServer((req, res) => {
     else {
         res.end("<h1> 404 nothing is here</h1>");
     }
+
 
     /*
 
