@@ -50,7 +50,6 @@ const server = http.createServer((req, res) => {
         //https://www.mongodb.com/blog/post/quick-start-nodejs-mongodb-how-to-get-connected-to-your-database
         const { MongoClient } = require('mongodb');
 
-main(processData);
         async function main() {
             /**
              * Connection URI. Update sushmanth, Sush%401919, and <your-cluster-url> to reflect your cluster.
