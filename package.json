@@ -6,11 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index",
-    "start":"node run dev"
+    "start": "node run dev"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "mongodb": "^5.4.0",
     "nodemon": "^2.0.22"
   }
 }
