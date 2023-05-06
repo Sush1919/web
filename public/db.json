@@ -1,11 +1,11 @@
 {
-        "phones":  [
-          {
-            "imeinumber": "kzp0en6knn",
-            "releasedate" : "21-06-2017",
-            "mobilemodel ": "Moto Z2",
+  "phones":  [
+    {
+      "imeinumber": "kzp0en6knn",
+      "releasedate" : "21-06-2017",
+      "mobilemodel ": "Moto Z2",
             "price" : "3999 SEK",
-            "url" : "https://images-na.ssl-images-amazon.com/images/I/41ddMNyQe6L.jpg"
+      "url" : "https://images-na.ssl-images-amazon.com/images/I/41ddMNyQe6L.jpg"
     
           },
           {
@@ -37,7 +37,7 @@
             "imeinumber": "cqiwhz6jq8",
             "releasedate" : "11-08-2017",
             "mobilemodel": "Lenovo P2",
-            "price" : "8999 SEK",
+            "price" : "$8999",
             "url" : "https://www.91-img.com/pictures/lenovo-p2-3gb-ram-mobile-phone-large-1.jpg"
        
         },
@@ -45,7 +45,7 @@
             "imeinumber": "vaingspk0a",
             "releasedate" : "10-08-2018",
             "mobilemodel": "OnePlus 6T",
-            "price" : "8999 SEK",
+            "price" : "$8999",
             "url" : "https://www.theinquirer.net/w-images/d1417a96-037b-41d8-9260-8c6dadc4ad78/1/JrASRUyl-300x500.jpg"
            
             
