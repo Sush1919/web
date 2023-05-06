@@ -87,7 +87,7 @@ const server = http.createServer((req, res) => {
 
                      PhoneDetails: await phoneCollection.find().toArray()
                 };
-                //const cars = await carCollection.find().toArray();
+              
                 console.log(collectionData);
 
 
