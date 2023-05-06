@@ -87,6 +87,10 @@ const server = http.createServer((req, res) => {
             const data = (JSON.stringify(results));
             console.log(data);
             res.end(JSON.stringify(data));
+            res.writeHead(200, {
+
+                'Content-Type': 'application/json'
+              });
 
         };
         //run().catch(console.dir);
