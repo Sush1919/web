@@ -1,116 +1,123 @@
-const http = require("http");
-const path = require("path");
-const fs = require("fs");
+const http = require('http');
+const path = require('path');
+const fs = require('fs');
+
 
 const server = http.createServer((req, res) => {
 
-    /*
-
-       
-
-        we can Navigate to different pages via different requests.
-        if / then goto index.html
-        if /about about then goto about.html
-        if /api then laod the JSON file  /  ;) this might be something you need for your exam.
-
-
-
-    */
-
-
+    console.log(req.url);
 
     if (req.url === '/') {
-        // read public.html file from public folder
+
         fs.readFile(path.join(__dirname, 'public', 'index.html'),
             (err, content) => {
 
                 if (err) throw err;
-                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.setHeader("Access-Control-Allow-Origin", "*");
+                res.writeHead(200, { 'Content-type': 'text/html' });
                 res.end(content);
-            }
-        );
+            });
+    }
+    else if (req.url.startsWith('/Images/')) {
+        const imagePath = path.join(__dirname, 'public', req.url);
+        const imageStream = fs.createReadStream(imagePath);
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+
+        if (req.url.match(/.*\.jpg$/i)) {
+            res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+        } else if (req.url.match(/.*\.webp$/i)) {
+            res.writeHead(200, { 'Content-Type': 'image/webp' });
+        } else if (req.url.match(/.*\.png$/i)) {
+            res.writeHead(200, { 'Content-Type': 'image/png' });
+        } else if (req.url.match(/.*\.svg$/i)) {
+            res.writeHead(200, { 'Content-Type': 'image/svg+xml' });
+        }
+
+        imageStream.pipe(res);
+
+        imageStream.on('error', () => {
+            res.writeHead(404, { 'Content-type': 'text/html' });
+            res.end("<h1> 404 Not Found </h1>");
+        });
+    }
+    else if (req.url === '/style.css') {
+        fs.readFile(path.join(__dirname, 'public', 'style.css'), (err, content) => {
+            if (err) throw err;
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.writeHead(200, { 'Content-type': 'text/css' });
+            res.end(content);
+        });
     }
 
-    else if (req.url === '/about') {
+    else if (req.url === '/script.js') { 
+        fs.readFile(path.join(__dirname, 'public', 'script.js'), (err, content) => {
+            if (err) throw err;
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.writeHead(200, { 'Content-type': 'application/javascript' });
+            res.end(content);
+        });
+    } else if (req.url === '/api') {
 
+        
+        //TO CONNECT TO MY MONGODB CODE:     
 
-        // read the about.html file public folder
-        fs.readFile(
-            path.join(__dirname, 'public', 'about.html'),
-            (err, content) => {
+        var input;
 
-                if (err) throw err;
-                res.writeHead(200, { 'Content-Type': 'text/html' });
-                res.end(content);
-            }
-        );
-    }
-    else if (req.url === '/api') {
-
-        //https://www.mongodb.com/blog/post/quick-start-nodejs-mongodb-how-to-get-connected-to-your-database
         const { MongoClient } = require('mongodb');
 
-        async function main() {
-            /**
-             * Connection URI. Update sushmanth, Sush%401919, and <your-cluster-url> to reflect your cluster.
-             * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
-             */
-            const uri = "mongodb+srv://Sushmanth:Sush%401919@cluster0.egrwwcm.mongodb.net/?retryWrites=true&w=majority";
+        main(processData);
+        async function main(callback) {
 
+             const uri = "mongodb+srv://Sushmanth:Sush%401919@cluster0.egrwwcm.mongodb.net/?retryWrites=true&w=majority";
 
-            const client = new MongoClient(uri);
+            const client = new MongoClient(uri, { useUnifiedTopology: true });
 
-
+            //Use a try-catch block to connect to the MongoDB Atlas cluster:
             try {
-                // Connect to the MongoDB cluster
+                //Import the MongoClient class from the mongodb package:
+                // Connect to MongoDB Atlas cluster
                 await client.connect();
+                console.log('Connected to MongoDB Atlas cluster');
 
-                // Make the appropriate DB calls
-                //await  listDatabases(client);
-                await findsomedata(client);
+                const phoneCollection = client.db('mobiles').collection('phones');
 
-            } catch (e) {
-                console.error(e);
+
+                const collectionData = {
+
+                     PhoneDetails: await phoneCollection.find().toArray()
+                };
+                //const cars = await carCollection.find().toArray();
+                console.log(collectionData);
+
+
+                input = collectionData;
+              
+                console.log(input);
+                // Call the callback function with the data as a parameter
+                callback(input);
+
+            } catch (err) {
+                console.error(err);
             } finally {
+                // Close the MongoDB Atlas cluster connection
                 await client.close();
+                console.log('Disconnected from MongoDB Atlas cluster');
             }
         }
-        function processData(data) {
 
+        function processData(data) {
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.writeHead(200, { 'Content-type': 'application/json' })
             res.end(JSON.stringify(data));
         }
-
-        main().catch(console.error);
-
-
-        async function findsomedata(client) {
-            const cursor = client.db("mobiles").collection("phones").find({});
-            const results = await cursor.toArray();
-            //console.log(results);
-            const data = (JSON.stringify(results));
-            console.log(data);
-            //JSON.parse(data);
-            res.end(JSON.stringify(data));
-            
-
-        };
-        //run().catch(console.dir);
-
+      
     }
     else {
-        res.end("<h1> 404 nothing is here</h1>");
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHead(404, { 'Content-type': 'text/html' })
+        res.end("<h1> 404 Nothing is Here </h1>")
     }
 
-
-    /*
-
-        But what if we have  1000 pages/urls ? do we need to write 1000 if-else statements?
-
-    /*/
 });
-
-const PORT = process.env.PORT || 5959;
-
-server.listen(PORT, () => console.log(`Great our server is running on port ${PORT} `));
+server.listen(7909, () => console.log(" great our server is runnning"));
